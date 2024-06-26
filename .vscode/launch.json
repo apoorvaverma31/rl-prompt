@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Run FSC Script",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/examples/few-shot-classification/run_fsc.py",
+            "args": [
+                "dataset=sst-2",
+                "dataset_seed=0",
+                "prompt_length=5", 
+                "task_lm=distilroberta-base",
+                "random_seed=42" 
+            ],
+            "console": "integratedTerminal"
+        }
+    ]
+}
