@@ -92,6 +92,7 @@ class PromptedClassificationReward(BaseReward):
         rewards: List[torch.Tensor] = []
         input_rewards: Dict[str, List[float]] = defaultdict(list)
         quantities_to_log: Dict[str, List[torch.Tensor]] = defaultdict(list)
+        # for each candidate prompt string(from policy network), evaluate reward value.
         for i, prompt in enumerate(prompt_strings):
             # Compute LM logits
             current_prompts = [prompt for _ in source_texts]
@@ -112,6 +113,9 @@ class PromptedClassificationReward(BaseReward):
             max_not_label_probs, _ = torch.max(not_label_probs, -1)
             # [batch_size, 1]
 
+            # convert to discrete reward of 1's and 0's
+            label_probs = (label_probs>0.5).long()
+            max_not_label_probs = (max_not_label_probs>0.5).long()
             # Compute piecewise gap reward
             gap = (label_probs - max_not_label_probs)
             correct = (gap > 0).long()

@@ -37,6 +37,7 @@ def main(config: "DictConfig"):
 
     policy_model = make_lm_adaptor_model(config)
     prompt_model = make_single_prompt_model(policy_model, config)
+    # redefine the reward module to incorporate judge-llm decision
     reward = make_prompted_classification_reward(num_classes, verbalizers, 
                                                  template, config)
     algo_module = make_sql_module(prompt_model, reward, config)
