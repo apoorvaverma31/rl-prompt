@@ -43,10 +43,9 @@ class PromptedClassificationEvaluator:
         else:
             assert self.task_lm in SUPPORTED_LEFT_TO_RIGHT_LMS
             self._tokenizer = AutoTokenizer.from_pretrained(
-                self.task_lm, pad_token='<|endoftext|>')
+                self.task_lm, truncation_side="left",pad_token='<|endoftext|>')
             self._generator = (GPT2LMHeadModel
-                               .from_pretrained(self.task_lm,
-                                   truncation_side="left")
+                               .from_pretrained(self.task_lm)
                                .to(self.device))
             self._generator.config.pad_token_id = self._tokenizer.pad_token_id
         self.num_classes = num_classes
